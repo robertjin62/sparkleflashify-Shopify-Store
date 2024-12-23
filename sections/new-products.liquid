@@ -1,0 +1,408 @@
+{%- assign _ss = section.settings -%}
+{%- assign _section = section.id | split: '__' | last | slice: -4, 4 | prepend: '#sn_' -%}
+{%- assign _this = section.id | prepend: '#shopify-section-' -%}
+
+{%- capture section_content -%}
+<style>
+    {{ _section }} {
+        position: relative;
+        background: {{ _ss.background }};
+        padding-top: {{ _ss.padding_top }}px;
+        padding-bottom: {{ _ss.padding_bottom }}px;
+    }
+
+    {{ _section }} .section_holder {
+        position: relative;
+        max-width: 1920px;
+        margin: auto;
+        padding: 0px 40px;
+    }
+
+    {{ _section }} .productCards_inner {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 24px;
+    }
+
+    {{ _section }} .productCard__imagePart {
+        display: flex;
+        flex-direction: column;
+        border: 1px solid #E8E8E8;
+        border-radius: 10px;
+        padding: 20px;
+        position: relative;
+    }
+
+    {{ _section }} .variantImage__second {
+        display: none;
+    }
+
+    {{ _section }} .variantImage__container:hover .variantImage__second {
+        display: block;
+    }
+
+    {{ _section }} .variantImage__container:hover .variantImage__first {
+        display: none;
+    }
+
+    {{ _section }} .imageWrapper {
+        width: 100%;
+        padding-bottom: 110%;
+        position: relative;
+    }
+
+    {{ _section }} .imageWrapper img {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    {{ _section }} .productCard__badge {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        display: flex;
+        min-width: 90px;
+        height: 30px;
+        padding: 0 8px;
+        border: 1px solid #FF0000;
+        align-items: center;
+        justify-content: center;
+    }
+
+    {{ _section }} .productCard__badgeText {
+        font-family: "Franklin Gothic ATF";
+        font-size: 15px;
+        font-weight: 500;
+        line-height: 1;
+        text-align: center;
+        color: #FF0000;
+    }
+
+    {{ _section }} .productCard__colorSelectorWrapper {
+        display: flex;
+        align-items: center;
+    }
+
+    {{ _section }} .productCard__colorSwatch {
+        position: relative;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+    }
+
+    {{ _section }} .productCard__colorSwatch::after {
+        display: block;
+        content: "";
+        border-radius: 50%;
+        width: calc(100% - 4px);
+        height: calc(100% - 4px);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    {{ _section }} [data-color=orange]::after {
+        background-color: #FF6633;
+    }
+    
+    {{ _section }} [data-color=green]::after {
+        background-color: #006600;
+    }
+
+    {{ _section }} [data-color=blue]::after {
+        background-color: #00639C;
+    }
+
+    {{ _section }} [data-color=yellow]::after {
+        background-color: #FCE78D;
+    }
+
+    {{ _section }} [data-color=pink]::after {
+        background-color: #FFCCFF;
+    }
+
+    {{ _section }} [data-color=navy]::after {
+        background-color: #19264B;
+    }
+
+    {{ _section }} .productCard__colorSwatch.selected {
+        border-color: #0A4874;
+    }
+
+    {{ _section }} .productCard_vendorText {
+        font-family: Roboto;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 16px;
+    }
+
+    {{ _section }} .productCard__title {
+        line-height: 1;
+    }
+
+    {{ _section }} .productCard__titleText {
+        font-family: Roboto;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 1;
+        color: #0A4874;
+    }
+
+    {{ _section }} .productCard__priceWrapper {
+        display: flex;
+        align-items: center;
+    }
+
+    {{ _section }} .productCard__compareAtPrice {
+        margin-right: 8px;
+        font-family: Roboto;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 16px;
+        text-align: center;
+        text-decoration: line-through;
+        color: #111111;
+    }
+
+    {{ _section }} .productCard__price {
+        font-family: Roboto;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 16px;
+        text-align: center;
+        color: #FF0000;
+    }
+
+    @media screen and (max-width: 1440px) {
+        {{ _section }} .productCards_inner {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        
+    }
+
+    @media screen and (max-width: 900px) {
+        {{ _section }} {
+            padding-top: {{ _ss.padding_top_mobile }}px;
+            padding-bottom: {{ _ss.padding_bottom_mobile }}px;
+        }
+        
+        {{ _section }} .section_holder {
+            padding: 0px 15px;
+        }
+
+        {{ _section }} .productCards_inner {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px 3px;
+        }
+
+        {{ _section }} .productCard__badge {
+            top: 8px;
+            left: 8px;
+            min-width: 60px;
+            height: 20px;
+            padding: 0 4px;
+        }
+
+        {{ _section }} .productCard__badgeText {
+            font-size: 11px;
+        }
+
+        {{ _section }} .productCard_vendorText {
+            font-size: 12px;
+        }
+
+        {{ _section }} .productCard__titleText {
+            font-size: 14px;
+        }
+
+        {{ _section }} .productCard__compareAtPrice {
+            margin-right: 4px;
+            font-size: 11px;
+        }
+
+        {{ _section }} .productCard__price {
+            font-size: 12px;
+        }
+
+    }
+    
+
+</style>
+
+
+<div id="sn_{{ section.id | split: '__' | last | slice: -4, 4 }}">
+    <div class="section_holder">
+        <div class="productCards_container">
+            <div class="productCards_inner">
+                {%- for ii in (1..4) -%}
+                    {%- for product in _ss.products -%}
+                        {%- assign _first_variant = product.selected_or_first_available_variant -%}
+                        <div class="productCard" data-p_id="{{ product.id }}">
+                            <a class="productCard__imagePart" href="{{ product.url }}">
+                                {%- for variant in product.variants -%}
+                                    <div class="variantImage__container" data-v_id="{{ variant.id }}"{% unless variant.id == _first_variant.id %} style="display: none;"{% endunless %}>
+                                        <div class="variantImage variantImage__first">
+                                            <div class="imageWrapper">
+                                                <img src="{{ variant.featured_image | image_url: width: 1000 }}" alt="varaint image-{{ variant.featured_image.id }}">
+                                            </div>
+                                        </div>
+                                        {%- if variant.metafields.custom.second_image -%}
+                                            <div class="variantImage variantImage__second">
+                                                <div class="imageWrapper">
+                                                    <img src="{{ variant.metafields.custom.second_image | image_url: width: 1000 }}" alt="varaint image-{{ variant.metafields.custom.second_image.id }}">
+                                                </div>
+                                            </div>
+                                        {%- endif -%}
+                                    </div>
+                                {%- endfor -%}
+                                <div class="productCard__badge rounded-full">
+                                    <div class="productCard__badgeText">On Sale!</div>
+                                </div>
+                            </a>
+                            <div class="productCard__infoPart">
+                                <div class="productCard__colorSelector py-3.5">
+                                    <div class="productCard__colorSelectorWrapper">
+                                        {%- for option_value in product.options_by_name["Color"].values -%}
+                                            <div class="productCard__colorSwatch border border-transparent rounded-full{% if _first_variant.options contains option_value %} selected{% endif %}" data-value="{{ option_value }}" data-color="{{ option_value | downcase }}"> </div>
+                                        {%- endfor -%}
+                                    </div>
+                                </div>
+                                <div class="productCard__vendor">
+                                    <div class="productCard_vendorText">{{ product.vendor }}</div>
+                                </div>
+                                <div class="productCard__title py-2">
+                                    <div class="productCard__titleText">{{ product.title }}</div>
+                                </div>
+                                <div class="productCard__price">
+                                    {%- for variant in product.variants -%}
+                                        <div class="productCard__priceWrapper" data-v_id="{{ variant.id }}"{% unless variant == _first_variant %} style="display: none;"{% endunless %}>
+                                            {%- if variant.compare_at_price > variant.price -%}
+                                                <div class="productCard__compareAtPrice">{{ variant.compare_at_price | money }}</div>
+                                            {%- endif -%}
+                                            <div class="productCard__price">{{ variant.price | money }}</div>
+                                        </div>
+                                    {%- endfor -%}
+                                </div>
+                            </div>
+                            <script type="application/json">{{ product | json }}</script>
+                        </div>
+                    {%- endfor -%}
+                {%- endfor -%}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("{{ _section }} .productCard__colorSwatch").on("click", function() {
+        $(this).siblings(".productCard__colorSwatch").removeClass("selected");
+        $(this).addClass("selected");
+
+        var currentOptionValue = $(this).data("value");
+        var productEl = $(this).closest(".productCard");
+        var productJson = JSON.parse(productEl.find("script").html());
+        console.log(productJson);
+        var currentVariant = {};
+
+        productJson.variants.forEach(function(variant) {
+            if (variant.options.includes(currentOptionValue)) {
+                currentVariant = variant;
+            }
+        });
+
+        if (currentVariant) {
+            productEl.find(".variantImage__container").each(function() {
+                if ($(this).data("v_id") == currentVariant.id) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+
+            productEl.find(".productCard__priceWrapper").each(function() {
+                if ($(this).data("v_id") == currentVariant.id) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        }
+    });
+</script>
+
+{%- endcapture -%}
+
+{{- section_content | remove: '  ' | strip_newlines -}}
+
+{% schema %}
+    {
+        "name": "New Products",
+        "settings": [
+            {
+                "type": "product_list",
+                "id": "products",
+                "label": "Products"
+            },
+            {
+                "type": "header",
+                "content": "General Settings"
+            },
+            {
+                "type": "color_background",
+                "id": "background",
+                "label": "Background color",
+                "default": "#FFFFFF00"
+            },
+            {
+                "type": "range",
+                "id": "padding_top",
+                "label": "Desktop padding top",
+                "min": 0,
+                "max": 300,
+                "step": 5,
+                "default": 100
+            },
+            {
+                "type": "range",
+                "id": "padding_bottom",
+                "label": "Desktop padding bottom",
+                "min": 0,
+                "max": 300,
+                "step": 5,
+                "default": 100
+            },
+            {
+                "type": "range",
+                "id": "padding_top_mobile",
+                "label": "Mobile padding top",
+                "min": 0,
+                "max": 200,
+                "step": 5,
+                "default": 50
+            },
+            {
+                "type": "range",
+                "id": "padding_bottom_mobile",
+                "label": "Mobile padding bottom",
+                "min": 0,
+                "max": 200,
+                "step": 5,
+                "default": 50
+            }
+        ],
+        "blocks": [
+        ],
+        "presets": [{
+            "name": "New Products"
+        }]
+    }
+{% endschema %}
